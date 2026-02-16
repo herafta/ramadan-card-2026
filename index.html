@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ramadan Greeting Card</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Reem+Kufi:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Reem+Kufi:wght@400;700&family=Poppins:wght@400;600&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -18,7 +18,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: 'Reem Kufi', 'Poppins', sans-serif;
+            font-family: 'Reem Kufi', 'Poppins', 'Noto Sans SC', 'Noto Sans JP', sans-serif;
             background-color: var(--dark-blue);
             background-image: radial-gradient(circle at 50% 10%, #1e293b 0%, #0f172a 100%);
             color: var(--text-light);
@@ -38,6 +38,7 @@
         select {
             background: rgba(0,0,0,0.6); color: #fff; border: 1px solid var(--primary-gold);
             padding: 5px 10px; border-radius: 20px; font-family: inherit; cursor: pointer; outline: none;
+            font-size: 0.9rem;
         }
 
         /* --- شريط الأخبار --- */
@@ -48,10 +49,27 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.3); font-size: 0.9rem;
         }
         .ticker-content { white-space: nowrap; display: inline-block; padding-left: 100%; }
-        .ticker-rtl { animation: ticker-rtl 30s linear infinite; direction: ltr; text-align: right;}
-        .ticker-ltr { animation: ticker-ltr 30s linear infinite; }
-        @keyframes ticker-rtl { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        @keyframes ticker-ltr { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        
+        /* تعديل الحركة للعربية لتكون من اليسار لليمين */
+        .ticker-rtl { 
+            animation: ticker-rtl-move 25s linear infinite; 
+            direction: ltr; /* مهم لضبط اتجاه النص داخل الشريط */
+            float: left;
+        }
+        
+        .ticker-ltr { animation: ticker-ltr-move 25s linear infinite; }
+
+        /* حركة من اليسار إلى اليمين (للعربية) */
+        @keyframes ticker-rtl-move { 
+            0% { transform: translateX(-100%); } 
+            100% { transform: translateX(100%); } 
+        }
+
+        /* حركة من اليمين إلى اليسار (للبقية) */
+        @keyframes ticker-ltr-move { 
+            0% { transform: translateX(100%); } 
+            100% { transform: translateX(-100%); } 
+        }
 
         /* --- الفوانيس --- */
         .lanterns-container {
@@ -79,7 +97,7 @@
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
         h1 {
-            font-family: 'Amiri', 'Poppins', serif; font-size: 3rem; color: var(--bright-gold);
+            font-family: 'Amiri', 'Poppins', 'Noto Sans SC', serif; font-size: 3rem; color: var(--bright-gold);
             margin-bottom: 10px; text-shadow: 2px 2px 4px #000;
         }
 
@@ -93,14 +111,15 @@
         .greeting-label { font-size: 1rem; color: #cbd5e1; margin-bottom: 5px; opacity: 0.8; }
         .recipient-name {
             font-size: 2.5rem; color: var(--accent-green);
-            font-family: 'Amiri', 'Poppins', serif; margin-bottom: 15px; display: block;
+            font-family: 'Amiri', 'Poppins', 'Noto Sans SC', serif; margin-bottom: 15px; display: block;
             text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+            word-break: break-word;
         }
         .dua-text { font-size: 1.2rem; line-height: 1.6; margin: 20px 0; color: #e2e8f0; font-style: italic; }
         .sender-section { margin-top: 25px; border-top: 1px solid rgba(197, 160, 89, 0.3); padding-top: 15px; }
         .sender-name { color: var(--primary-gold); font-family: 'Amiri', 'Poppins', serif; font-size: 1.4rem; font-weight: bold; }
 
-        /* --- الإضافات الجديدة (الشبكة) --- */
+        /* --- الشبكة (نفحات، نصائح) --- */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -120,7 +139,7 @@
         .feature-card:hover { transform: translateY(-3px); border-color: var(--primary-gold); }
 
         .feature-icon { font-size: 1.8rem; margin-bottom: 10px; }
-        .feature-title { color: var(--primary-gold); font-size: 1rem; font-weight: bold; margin-bottom: 8px; font-family: 'Amiri', serif;}
+        .feature-title { color: var(--primary-gold); font-size: 1rem; font-weight: bold; margin-bottom: 8px; font-family: 'Amiri', 'Poppins', serif;}
         .feature-text { font-size: 0.9rem; line-height: 1.4; opacity: 0.9; min-height: 40px; display: flex; align-items: center; justify-content: center;}
 
         /* المسبحة */
@@ -183,8 +202,12 @@
         <select id="languageSelector" onchange="changeLanguage(this.value)">
             <option value="ar">🇸🇦 العربية</option>
             <option value="en">🇬🇧 English</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="es">🇪🇸 Español</option>
             <option value="tr">🇹🇷 Türkçe</option>
             <option value="de">🇩🇪 Deutsch</option>
+            <option value="zh">🇨🇳 中文</option>
+            <option value="ja">🇯🇵 日本語</option>
         </select>
     </div>
 
@@ -237,7 +260,7 @@
             <div class="feature-card tasbih-card" onclick="incrementTasbih()">
                 <div class="feature-title" id="titleTasbih" style="margin-bottom:0">مسبحة</div>
                 <div class="counter-circle" id="tasbihCount">0</div>
-                <small style="opacity:0.7; margin-top:5px; font-size:0.8rem">اضغط للتسبيح</small>
+                <small style="opacity:0.7; margin-top:5px; font-size:0.8rem" id="tapText">اضغط للتسبيح</small>
             </div>
         </div>
 
@@ -288,28 +311,13 @@
                 btnShare: "مشاركة التهنئة",
                 toast: "تم نسخ الرابط! أرسله لمن تحب.",
                 shareMsg: "🌙 تهنئة خاصة بمناسبة رمضان المبارك",
-                // العناوين الجديدة
                 titleNafahat: "نفحات",
                 titleAdvice: "نصيحة رمضانية",
                 titleTasbih: "مسبحة",
-                duas: [
-                    "اللهم اجعلنا من عتقائك من النار في هذا الشهر الفضيل.",
-                    "مبارك عليكم الشهر، أسأل الله أن يعينكم على صيامه وقيامه.",
-                    "اللهم سلمنا لرمضان، وسلم رمضان لنا، وتسلمه منا متقبلاً.",
-                    "أسأل الله لكم في شهر رمضان حسنات تتكاثر وذنوباً تتناثر."
-                ],
-                nafahatList: [
-                    "الصوم تربية للإرادة وجهاد للنفس.",
-                    "رمضان فرصة للتغيير نحو الأفضل.",
-                    "من صام رمضان إيماناً واحتساباً غفر له ما تقدم من ذنبه.",
-                    "القرآن روح رمضان، فلا تهجره."
-                ],
-                adviceList: [
-                    "لا تكثر من الطعام عند الإفطار لتنشط للعبادة.",
-                    "حافظ على صلاة التراويح ولو ركعات قليلة.",
-                    "خصص وقتاً للدعاء قبل الإفطار فإن للصائم دعوة لا ترد.",
-                    "تصدق ولو بالقليل، فالصدقة تطفئ غضب الرب."
-                ]
+                tapText: "اضغط للتسبيح",
+                duas: ["اللهم اجعلنا من عتقائك من النار.", "مبارك عليكم الشهر، أسأل الله أن يعينكم على صيامه.", "اللهم سلمنا لرمضان، وسلم رمضان لنا."],
+                nafahatList: ["الصوم تربية للإرادة.", "رمضان فرصة للتغيير.", "القرآن روح رمضان."],
+                adviceList: ["لا تكثر من الطعام عند الإفطار.", "حافظ على صلاة التراويح.", "خصص وقتاً للدعاء."]
             },
             en: {
                 dir: "ltr",
@@ -322,76 +330,156 @@
                 defaultRecipient: "Dear Guest",
                 footer: "Happy Ramadan",
                 controlsTitle: "👇 Create your card",
-                labelSender: "Your Name (Sender):",
+                labelSender: "Your Name:",
                 labelRecipient: "Recipient Name:",
-                placeholderSender: "e.g. Ahmed, Mom...",
-                placeholderRecipient: "e.g. John, Dad...",
+                placeholderSender: "e.g. Ahmed...",
+                placeholderRecipient: "e.g. John...",
                 btnDua: "Refresh All",
                 btnShare: "Share Greeting",
-                toast: "Link copied! Send it now.",
+                toast: "Link copied!",
                 shareMsg: "🌙 Special Ramadan Greeting",
                 titleNafahat: "Inspiration",
                 titleAdvice: "Ramadan Tip",
                 titleTasbih: "Tasbih",
-                duas: [
-                    "May Allah accept your fasting and prayers.",
-                    "Wishing you a blessed Ramadan filled with peace.",
-                    "May this Ramadan bring joy and health.",
-                    "O Allah, let us reach Ramadan and accept our deeds."
-                ],
-                nafahatList: [
-                    "Fasting is patience and discipline.",
-                    "Ramadan is a chance to change for the better.",
-                    "Quran is the soul of Ramadan.",
-                    "Kindness is a mark of faith."
-                ],
-                adviceList: [
-                    "Don't overeat at Iftar to stay active.",
-                    "Maintain Taraweeh prayers.",
-                    "Make Dua before breaking your fast.",
-                    "Give charity, even if it's little."
-                ]
+                tapText: "Tap to count",
+                duas: ["May Allah accept your fasting.", "Wishing you a blessed Ramadan.", "May this Ramadan bring joy."],
+                nafahatList: ["Fasting is discipline.", "Ramadan is a chance for change.", "Quran is the soul of Ramadan."],
+                adviceList: ["Don't overeat at Iftar.", "Maintain Taraweeh prayers.", "Make Dua frequently."]
+            },
+            fr: {
+                dir: "ltr",
+                title: "Ramadan Mubarak",
+                subTitle: "Bienvenue au mois de la miséricorde",
+                ticker: "🌙 Voeux spéciaux pour le Ramadan par Younes Al-Sheikh Abu Taym | Qu'Allah accepte nos bonnes actions 🌙",
+                to: "Pour:",
+                from: "De:",
+                defaultSender: "Un Ami",
+                defaultRecipient: "Cher Invité",
+                footer: "Joyeux Ramadan",
+                controlsTitle: "👇 Créez votre carte",
+                labelSender: "Votre Nom:",
+                labelRecipient: "Nom du Destinataire:",
+                placeholderSender: "ex: Ahmed...",
+                placeholderRecipient: "ex: Marie...",
+                btnDua: "Actualiser",
+                btnShare: "Partager",
+                toast: "Lien copié !",
+                shareMsg: "🌙 Voeux Spéciaux Ramadan",
+                titleNafahat: "Inspiration",
+                titleAdvice: "Conseil Ramadan",
+                titleTasbih: "Tasbih",
+                tapText: "Appuyez pour compter",
+                duas: ["Qu'Allah accepte votre jeûne.", "Je vous souhaite un Ramadan béni.", "Que ce Ramadan apporte la joie."],
+                nafahatList: ["Le jeûne est une discipline.", "Le Ramadan est une chance de changement.", "Le Coran est l'âme du Ramadan."],
+                adviceList: ["Ne mangez pas trop à l'Iftar.", "Maintenez les prières de Tarawih.", "Faites des Dua fréquemment."]
+            },
+            es: {
+                dir: "ltr",
+                title: "Ramadán Mubarak",
+                subTitle: "Bienvenido el mes de la misericordia",
+                ticker: "🌙 Saludos especiales de Ramadán por Younes Al-Sheikh Abu Taym | Que Allah acepte nuestras buenas acciones 🌙",
+                to: "Para:",
+                from: "De:",
+                defaultSender: "Un Amigo",
+                defaultRecipient: "Querido Invitado",
+                footer: "Feliz Ramadán",
+                controlsTitle: "👇 Crea tu tarjeta",
+                labelSender: "Tu Nombre:",
+                labelRecipient: "Nombre del Destinatario:",
+                placeholderSender: "ej: Ahmed...",
+                placeholderRecipient: "ej: Juan...",
+                btnDua: "Actualizar",
+                btnShare: "Compartir",
+                toast: "¡Enlace copiado!",
+                shareMsg: "🌙 Saludos Especiales de Ramadán",
+                titleNafahat: "Inspiración",
+                titleAdvice: "Consejo de Ramadán",
+                titleTasbih: "Tasbih",
+                tapText: "Toca para contar",
+                duas: ["Que Allah acepte tu ayuno.", "Te deseo un bendito Ramadán.", "Que este Ramadán traiga alegría."],
+                nafahatList: ["El ayuno es disciplina.", "Ramadán es una oportunidad de cambio.", "El Corán es el alma del Ramadán."],
+                adviceList: ["No comas en exceso en Iftar.", "Mantén las oraciones de Tarawih.", "Haz Dua frecuentemente."]
+            },
+            zh: {
+                dir: "ltr",
+                title: "斋月吉庆",
+                subTitle: "欢迎来到慈悯之月",
+                ticker: "🌙 Younes Al-Sheikh Abu Taym 的斋月特别祝福 | 愿真主以此回赐我们 🌙",
+                to: "致:",
+                from: "来自:",
+                defaultSender: "朋友",
+                defaultRecipient: "贵客",
+                footer: "斋月快乐",
+                controlsTitle: "👇 制作你的贺卡",
+                labelSender: "你的名字:",
+                labelRecipient: "收件人名字:",
+                placeholderSender: "例如: 艾哈迈德...",
+                placeholderRecipient: "例如: 阿里...",
+                btnDua: "刷新",
+                btnShare: "分享祝福",
+                toast: "链接已复制！",
+                shareMsg: "🌙 斋月特别祝福",
+                titleNafahat: "灵感",
+                titleAdvice: "斋月建议",
+                titleTasbih: "赞以此",
+                tapText: "点击计数",
+                duas: ["愿真主接受你的斋戒。", "祝你斋月吉庆。", "愿这个斋月带来喜悦。"],
+                nafahatList: ["斋戒是自律。", "斋月是改变的机会。", "古兰经是斋月的灵魂。"],
+                adviceList: ["开斋时不要暴饮暴食。", "坚持泰拉威礼拜。", "经常做杜阿。"]
+            },
+            ja: {
+                dir: "ltr",
+                title: "ラマダン・ムバラク",
+                subTitle: "慈悲の月へようこそ",
+                ticker: "🌙 Younes Al-Sheikh Abu Taym からの特別なラマダンの挨拶 | アッラーが私たちの善行を受け入れますように 🌙",
+                to: "へ:",
+                from: "から:",
+                defaultSender: "友人",
+                defaultRecipient: "ゲスト",
+                footer: "ラマダンおめでとう",
+                controlsTitle: "👇 カードを作成",
+                labelSender: "あなたの名前:",
+                labelRecipient: "受取人の名前:",
+                placeholderSender: "例: アフメド...",
+                placeholderRecipient: "例: タナカ...",
+                btnDua: "更新",
+                btnShare: "共有",
+                toast: "リンクをコピーしました！",
+                shareMsg: "🌙 特別なラマダンの挨拶",
+                titleNafahat: "インスピレーション",
+                titleAdvice: "ラマダンのヒント",
+                titleTasbih: "タスビー",
+                tapText: "タップしてカウント",
+                duas: ["アッラーがあなたの断食を受け入れますように。", "祝福されたラマダンをお祈りします。", "このラマダンが喜びをもたらしますように。"],
+                nafahatList: ["断食は規律です。", "ラマダンは変化の機会です。", "コーランはラマダンの魂です。"],
+                adviceList: ["イフタールで食べ過ぎないでください。", "タラウィーの祈りを続けてください。", "頻繁にドゥアをしてください。"]
             },
             tr: {
                 dir: "ltr",
                 title: "Hayırlı Ramazanlar",
                 subTitle: "Rahmet ve bereket ayı hoş geldin",
-                ticker: "🌙 Tasarımcı Younes Al-Sheikh Abu Taym'dan Özel Ramazan Tebriği 🌙",
+                ticker: "🌙 Tasarımcı Younes Al-Sheikh Abu Taym'dan Özel Ramazan Tebriği | Allah dualarımızı kabul etsin 🌙",
                 to: "Sayın:",
                 from: "Gönderen:",
                 defaultSender: "Bir Dost",
                 defaultRecipient: "Değerli Misafir",
                 footer: "Bayramınız Mübarek Olsun",
                 controlsTitle: "👇 Kartını oluştur",
-                labelSender: "Adınız (Gönderen):",
-                labelRecipient: "Alıcının Adı:",
+                labelSender: "Adınız:",
+                labelRecipient: "Alıcı Adı:",
                 placeholderSender: "Örn: Ahmet...",
                 placeholderRecipient: "Örn: Mehmet...",
                 btnDua: "Yenile",
-                btnShare: "Tebriği Paylaş",
+                btnShare: "Paylaş",
                 toast: "Link kopyalandı!",
                 shareMsg: "🌙 Özel Ramazan Tebriği",
                 titleNafahat: "İlham",
                 titleAdvice: "Ramazan Tavsiyesi",
                 titleTasbih: "Tesbih",
-                duas: [
-                    "Allah oruçlarımızı kabul etsin.",
-                    "Ramazan bereketi evinize dolsun.",
-                    "Rabbim bizi affına kavuştursun.",
-                    "Hayırlı Ramazanlar dilerim."
-                ],
-                nafahatList: [
-                    "Oruç sabırdır.",
-                    "Ramazan yenilenme fırsatıdır.",
-                    "Kuran Ramazan'ın kalbidir.",
-                    "İyilik imanın süsüdür."
-                ],
-                adviceList: [
-                    "İftarda aşırı yemeyin.",
-                    "Teravih namazlarını aksatmayın.",
-                    "İftardan önce dua edin.",
-                    "Az da olsa sadaka verin."
-                ]
+                tapText: "Saymak için dokun",
+                duas: ["Allah oruçlarımızı kabul etsin.", "Ramazan bereketi evinize dolsun.", "Hayırlı Ramazanlar dilerim."],
+                nafahatList: ["Oruç sabırdır.", "Ramazan yenilenme fırsatıdır.", "Kuran Ramazan'ın kalbidir."],
+                adviceList: ["İftarda aşırı yemeyin.", "Teravih namazlarını aksatmayın.", "Bol bol dua edin."]
             },
             de: {
                 dir: "ltr",
@@ -401,38 +489,24 @@
                 to: "Für:",
                 from: "Von:",
                 defaultSender: "Ein Freund",
-                defaultRecipient: "Lieber Gast",
+                defaultRecipient: "Gast",
                 footer: "Frohen Ramadan",
-                controlsTitle: "👇 Erstelle deine Karte",
+                controlsTitle: "👇 Karte erstellen",
                 labelSender: "Dein Name:",
                 labelRecipient: "Empfängername:",
                 placeholderSender: "z.B. Ahmed...",
                 placeholderRecipient: "z.B. Lukas...",
                 btnDua: "Aktualisieren",
-                btnShare: "Gruß teilen",
+                btnShare: "Teilen",
                 toast: "Link kopiert!",
                 shareMsg: "🌙 Ramadan Grüße",
                 titleNafahat: "Inspiration",
                 titleAdvice: "Ramadan Tipp",
                 titleTasbih: "Tasbih",
-                duas: [
-                    "Möge Allah dein Fasten annehmen.",
-                    "Gesegneten Ramadan voller Frieden.",
-                    "Möge dieser Monat Freude bringen.",
-                    "O Allah, nimm unsere Taten an."
-                ],
-                nafahatList: [
-                    "Fasten ist Geduld.",
-                    "Ramadan ist eine Chance zur Veränderung.",
-                    "Der Koran ist die Seele des Ramadan.",
-                    "Gutes tun stärkt den Glauben."
-                ],
-                adviceList: [
-                    "Iss nicht zu viel beim Iftar.",
-                    "Verrichte das Tarawih-Gebet.",
-                    "Bitte Allah vor dem Fastenbrechen.",
-                    "Gib Almosen, auch wenn es wenig ist."
-                ]
+                tapText: "Tippen zum Zählen",
+                duas: ["Möge Allah dein Fasten annehmen.", "Gesegneten Ramadan.", "Frieden sei mit dir."],
+                nafahatList: ["Fasten ist Geduld.", "Ramadan ist eine Chance.", "Der Koran ist die Seele."],
+                adviceList: ["Iss nicht zu viel.", "Verrichte das Tarawih.", "Bitte Allah oft."]
             }
         };
 
@@ -490,10 +564,10 @@
             document.getElementById('btnDuaText').textContent = t.btnDua;
             document.getElementById('btnShareText').textContent = t.btnShare;
 
-            // عناوين الأقسام الجديدة
             document.getElementById('titleNafahat').textContent = t.titleNafahat;
             document.getElementById('titleAdvice').textContent = t.titleAdvice;
             document.getElementById('titleTasbih').textContent = t.titleTasbih;
+            document.getElementById('tapText').textContent = t.tapText;
 
             updateCardLive();
             randomizeAll();
@@ -508,10 +582,8 @@
             document.getElementById('displayRecipient').textContent = recipientVal.trim() === "" ? t.defaultRecipient : recipientVal;
         }
 
-        // دالة تقوم بتغيير الدعاء والنفحات والنصيحة دفعة واحدة
         function randomizeAll() {
             const t = content[currentLang];
-            
             const randomDua = t.duas[Math.floor(Math.random() * t.duas.length)];
             const randomNafaha = t.nafahatList[Math.floor(Math.random() * t.nafahatList.length)];
             const randomAdvice = t.adviceList[Math.floor(Math.random() * t.adviceList.length)];
@@ -530,12 +602,10 @@
             }, 300);
         }
 
-        // دالة المسبحة
         function incrementTasbih() {
             tasbihCount++;
             const el = document.getElementById('tasbihCount');
             el.textContent = tasbihCount;
-            // تأثير حركي بسيط
             el.style.transform = "scale(1.2)";
             setTimeout(() => el.style.transform = "scale(1)", 150);
         }
@@ -551,7 +621,6 @@
             const shareTitle = t.title;
             const displayName = senderVal || t.defaultSender;
             const displayTarget = recipientVal || t.defaultRecipient;
-            
             const shareText = `${t.shareMsg}\n${t.from} ${displayName}\n${t.to} ${displayTarget}\n\n👇`;
 
             if (navigator.share) {
@@ -561,9 +630,7 @@
                         text: shareText,
                         url: shareUrl
                     });
-                } catch (err) {
-                    console.log('Error sharing:', err);
-                }
+                } catch (err) { console.log('Error sharing:', err); }
             } else {
                 copyToClipboard(shareUrl);
             }
@@ -576,9 +643,7 @@
                 toast.textContent = t.toast;
                 toast.className = "show";
                 setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
-            }, () => {
-                prompt("Copy link:", text);
-            });
+            }, () => { prompt("Copy link:", text); });
         }
     </script>
 </body>
