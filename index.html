@@ -573,6 +573,11 @@
             // تطبيق الثيم الحالي على الحاوية المؤقتة
             const currentTheme = document.body.getAttribute('data-theme');
             tempContainer.setAttribute('data-theme', currentTheme);
+
+            // إصلاح: تعيين الخلفية للحاوية المؤقتة لتظهر في الصورة بوضوح
+            tempContainer.style.background = 'var(--bg-body)';
+            tempContainer.style.color = 'var(--text-main)';
+            tempContainer.style.padding = '20px';
             
             document.body.appendChild(tempContainer);
 
