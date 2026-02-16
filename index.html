@@ -3,461 +3,457 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>تهنئة رمضان مبارك - يونس الشيخ أبو تيم</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
+    <title>Ramadan Greeting Card</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Reem+Kufi:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --primary-gold: #c5a059;
             --bright-gold: #ffd700;
             --dark-blue: #0f172a;
-            --night-blue: #1e293b;
             --accent-green: #10b981;
             --text-light: #f8fafc;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: 'Reem Kufi', sans-serif;
+            font-family: 'Reem Kufi', 'Poppins', sans-serif; /* خط ذكي يدعم اللغتين */
             background-color: var(--dark-blue);
             background-image: radial-gradient(circle at 50% 10%, #1e293b 0%, #0f172a 100%);
             color: var(--text-light);
             overflow-x: hidden;
             min-height: 100vh;
-            position: relative;
             padding-bottom: 40px;
+            transition: all 0.3s ease;
         }
 
-        /* --- شريط الأخبار العلوي (التصميم الأصلي) --- */
+        /* --- اختيار اللغة --- */
+        .lang-switch {
+            position: absolute;
+            top: 50px; /* أسفل شريط الأخبار */
+            left: 20px; /* سيتغير مكانه حسب الاتجاه */
+            z-index: 100;
+        }
+        
+        /* ضبط مكان الزر حسب الاتجاه */
+        html[dir="rtl"] .lang-switch { left: 20px; right: auto; }
+        html[dir="ltr"] .lang-switch { right: 20px; left: auto; }
+
+        select {
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            border: 1px solid var(--primary-gold);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-family: inherit;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* --- شريط الأخبار --- */
         .news-ticker {
             background: linear-gradient(90deg, #b8860b, #daa520);
             color: #000;
             padding: 8px 0;
             font-weight: bold;
-            font-family: 'Amiri', serif;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            font-size: 0.95rem;
+            font-family: 'Amiri', 'Poppins', serif;
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3); font-size: 0.9rem;
         }
+        .ticker-content { white-space: nowrap; display: inline-block; padding-left: 100%; }
         
-        .ticker-content {
-            white-space: nowrap;
-            display: inline-block;
-            animation: ticker 30s linear infinite;
-            padding-left: 100%; 
-        }
+        /* حركة الشريط تتغير حسب الاتجاه */
+        .ticker-rtl { animation: ticker-rtl 30s linear infinite; direction: ltr; text-align: right;}
+        .ticker-ltr { animation: ticker-ltr 30s linear infinite; }
 
-        @keyframes ticker {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(100%, 0, 0); }
-        }
+        @keyframes ticker-rtl { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        @keyframes ticker-ltr { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        /* --- الخلفية والزخارف --- */
-        .background-decor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.1;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c5a059' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-
-        /* --- الفوانيس (التصميم الأصلي) --- */
+        /* --- الفوانيس --- */
         .lanterns-container {
-            position: absolute;
-            top: 40px;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 10px;
-            z-index: 5;
-            pointer-events: none;
+            position: absolute; top: 40px; width: 100%;
+            display: flex; justify-content: space-between; padding: 0 10px;
+            z-index: 5; pointer-events: none;
         }
+        .lantern { width: 60px; height: auto; transform-origin: top center; filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5)); }
+        .l-left { animation: swing 3s infinite alternate; margin-left: 5%; }
+        .l-right { animation: swing 4s infinite alternate; margin-right: 5%; width: 80px; }
+        .l-center { animation: swing 5s infinite alternate; width: 50px; position: absolute; left: 50%; transform: translateX(-50%); top: -10px;}
+        @keyframes swing { 0% { transform: rotate(5deg); } 100% { transform: rotate(-5deg); } }
 
-        .lantern {
-            width: 60px; /* الحجم الأصلي */
-            height: auto;
-            transform-origin: top center;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
-        }
-
-        .l-left { animation: swing 3s ease-in-out infinite alternate; margin-left: 5%; }
-        .l-right { animation: swing 4s ease-in-out infinite alternate; margin-right: 5%; width: 80px; }
-        .l-center { animation: swing 5s ease-in-out infinite alternate; width: 50px; position: absolute; left: 50%; transform: translateX(-50%); top: -10px;}
-
-        @keyframes swing {
-            0% { transform: rotate(5deg); }
-            100% { transform: rotate(-5deg); }
-        }
-
-        /* --- المحتوى الرئيسي --- */
+        /* --- المحتوى --- */
         .main-container {
-            position: relative;
-            z-index: 10;
-            max-width: 800px;
-            margin: 120px auto 40px;
-            text-align: center;
-            padding: 20px;
+            position: relative; z-index: 10; max-width: 800px;
+            margin: 100px auto 40px; text-align: center; padding: 20px;
         }
 
         .moon-icon {
-            font-size: 5rem;
-            color: var(--bright-gold);
+            font-size: 5rem; color: var(--bright-gold);
             text-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
-            animation: float 6s ease-in-out infinite;
-            margin-bottom: 20px;
-            display: inline-block;
+            animation: float 6s infinite; margin-bottom: 20px; display: inline-block;
         }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
         h1 {
-            font-family: 'Amiri', serif;
-            font-size: 3rem;
-            color: var(--bright-gold);
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px #000;
+            font-family: 'Amiri', 'Poppins', serif; font-size: 3rem; color: var(--bright-gold);
+            margin-bottom: 10px; text-shadow: 2px 2px 4px #000;
         }
 
-        /* --- بطاقة التهنئة (التصميم الأصلي مع تعديل بسيط للأسماء) --- */
         .greeting-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 2px solid var(--primary-gold);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 30px 0;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
+            border: 2px solid var(--primary-gold); border-radius: 20px;
+            padding: 30px; margin: 30px 0;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease;
         }
 
-        .greeting-label {
-            font-size: 1rem; color: #cbd5e1; margin-bottom: 5px; opacity: 0.8;
-        }
-
+        .greeting-label { font-size: 1rem; color: #cbd5e1; margin-bottom: 5px; opacity: 0.8; }
         .recipient-name {
-            font-size: 2.5rem;
-            color: var(--accent-green);
-            font-family: 'Amiri', serif;
-            margin-bottom: 15px;
-            display: block;
+            font-size: 2.5rem; color: var(--accent-green);
+            font-family: 'Amiri', 'Poppins', serif; margin-bottom: 15px; display: block;
             text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
-            line-height: 1.2;
         }
 
-        .dua-text {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            margin: 20px 0;
-            color: #e2e8f0;
-            font-style: italic;
-        }
+        .dua-text { font-size: 1.2rem; line-height: 1.6; margin: 20px 0; color: #e2e8f0; font-style: italic; }
 
-        /* قسم المرسل الجديد بتصميم أنيق */
-        .sender-section {
-            margin-top: 25px;
-            border-top: 1px solid rgba(197, 160, 89, 0.3);
-            padding-top: 15px;
-        }
+        .sender-section { margin-top: 25px; border-top: 1px solid rgba(197, 160, 89, 0.3); padding-top: 15px; }
+        .sender-name { color: var(--primary-gold); font-family: 'Amiri', 'Poppins', serif; font-size: 1.4rem; font-weight: bold; }
 
-        .sender-name {
-            color: var(--primary-gold);
-            font-family: 'Amiri', serif;
-            font-size: 1.4rem;
-            font-weight: bold;
-        }
-
-        /* --- المدخلات والأزرار --- */
         .controls {
-            margin-top: 40px;
-            background: rgba(0,0,0,0.4); /* خلفية داكنة قليلاً كما في الأصلي */
-            padding: 25px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 215, 0, 0.1);
+            margin-top: 40px; background: rgba(0,0,0,0.4); padding: 25px;
+            border-radius: 15px; border: 1px solid rgba(255, 215, 0, 0.1);
         }
 
-        .input-group {
-            margin-bottom: 15px;
-            text-align: right;
-        }
-        
-        .input-label {
-            color: var(--primary-gold);
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-            display: block;
-            margin-right: 5px;
-        }
+        .input-group { margin-bottom: 15px; }
+        /* محاذاة النص حسب اللغة */
+        html[dir="rtl"] .input-group { text-align: right; }
+        html[dir="ltr"] .input-group { text-align: left; }
+
+        .input-label { color: var(--primary-gold); font-size: 0.9rem; margin-bottom: 5px; display: block; }
 
         input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid var(--primary-gold);
-            background: rgba(255,255,255,0.1); /* نفس شفافية التصميم الأول */
-            color: #fff;
-            font-family: 'Reem Kufi', sans-serif;
-            font-size: 1.1rem;
-            text-align: center;
-            margin-bottom: 5px;
-            transition: all 0.3s;
+            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--primary-gold);
+            background: rgba(255,255,255,0.1); color: #fff;
+            font-family: inherit; font-size: 1.1rem; text-align: center;
         }
 
-        input:focus {
-            outline: none;
-            box-shadow: 0 0 10px var(--primary-gold);
-            background: rgba(255,255,255,0.15);
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
+        .btn-group { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
 
         button {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Reem Kufi', sans-serif;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            min-width: 160px;
+            padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer;
+            font-family: inherit; font-weight: bold; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 150px;
         }
 
-        /* أزرار التصميم الأول */
-        .btn-generate {
-            background: linear-gradient(45deg, var(--primary-gold), #daa520);
-            color: #000;
-        }
+        .btn-generate { background: linear-gradient(45deg, var(--primary-gold), #daa520); color: #000; }
+        .btn-share { background: var(--accent-green); color: #fff; }
 
-        .btn-share {
-            background: var(--accent-green);
-            color: #fff;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.1);
-        }
-        
-        button:active { transform: translateY(1px); }
-
-        /* تعديلات للجوال */
-        @media (max-width: 600px) {
-            h1 { font-size: 2.2rem; }
-            .lantern { width: 45px; }
-            .l-right { width: 65px; }
-            .greeting-card { padding: 20px; }
-            .recipient-name { font-size: 2rem; }
-            button { width: 100%; }
-            .moon-icon { font-size: 4rem; }
-        }
-
-        /* --- مؤشر النسخ --- */
         #toast {
-            visibility: hidden;
-            min-width: 250px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 8px;
-            padding: 16px;
-            position: fixed;
-            z-index: 2000;
-            left: 50%;
-            bottom: 30px;
-            transform: translateX(-50%);
-            font-size: 16px;
+            visibility: hidden; min-width: 250px; background-color: #333; color: #fff;
+            text-align: center; border-radius: 8px; padding: 16px; position: fixed;
+            z-index: 2000; left: 50%; bottom: 30px; transform: translateX(-50%);
             border-bottom: 4px solid var(--accent-green);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
-
-        #toast.show {
-            visibility: visible;
-            animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        }
-
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 
-        /* SVG Graphics */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .lantern { width: 45px; } .l-right { width: 65px; }
+            button { width: 100%; }
+        }
         .lantern-svg { fill: rgba(255, 215, 0, 0.8); }
-
     </style>
 </head>
 <body>
 
-    <div class="news-ticker">
-        <div class="ticker-content">
-            🌙 تهنئة خاصة بمناسبة حلول شهر رمضان المبارك من المصمم يونس الشيخ أبو تيم | تقبل الله منا ومنكم صالح الأعمال | رمضان يجمعنا على الخير والمحبة 🌙
-        </div>
+    <div class="lang-switch">
+        <select id="languageSelector" onchange="changeLanguage(this.value)">
+            <option value="ar">🇸🇦 العربية</option>
+            <option value="en">🇬🇧 English</option>
+            <option value="tr">🇹🇷 Türkçe</option>
+            <option value="de">🇩🇪 Deutsch</option>
+        </select>
     </div>
 
-    <div class="background-decor"></div>
+    <div class="news-ticker">
+        <div class="ticker-content" id="tickerText">
+            </div>
+    </div>
+
+    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.1; background-image: url('data:image/svg+xml,...');"></div>
 
     <div class="lanterns-container">
-        <div class="lantern l-left">
-            <svg viewBox="0 0 100 200" class="lantern-svg"><path d="M50,0 L50,20 M20,20 L80,20 L90,60 L10,60 L20,20 M10,60 L90,60 L80,150 L20,150 L10,60 M40,150 L40,180 M60,150 L60,180 M30,180 L70,180" stroke="#ffd700" stroke-width="2" fill="rgba(255,215,0,0.2)"/><circle cx="50" cy="100" r="15" fill="#ffd700" filter="blur(5px)"/></svg>
-        </div>
-        <div class="lantern l-center">
-             <svg viewBox="0 0 100 200" class="lantern-svg"><path d="M50,0 L50,30 M30,30 L70,30 L80,70 L20,70 L30,30 M20,70 L80,70 L70,140 L30,140 L20,70 M45,140 L45,170 M55,140 L55,170 M35,170 L65,170" stroke="#ffd700" stroke-width="2" fill="rgba(255,215,0,0.2)"/><circle cx="50" cy="100" r="10" fill="#ffd700" filter="blur(5px)"/></svg>
-        </div>
-        <div class="lantern l-right">
-            <svg viewBox="0 0 100 200" class="lantern-svg"><path d="M50,0 L50,20 M20,20 L80,20 L90,60 L10,60 L20,20 M10,60 L90,60 L80,150 L20,150 L10,60 M40,150 L40,180 M60,150 L60,180 M30,180 L70,180" stroke="#ffd700" stroke-width="2" fill="rgba(255,215,0,0.2)"/><circle cx="50" cy="100" r="15" fill="#ffd700" filter="blur(5px)"/></svg>
-        </div>
+        <div class="lantern l-left"><svg viewBox="0 0 100 200" class="lantern-svg"><path d="M50,0 L50,20 M20,20 L80,20 L90,60 L10,60 L20,20 M10,60 L90,60 L80,150 L20,150 L10,60 M40,150 L40,180 M60,150 L60,180 M30,180 L70,180" stroke="#ffd700" stroke-width="2" fill="rgba(255,215,0,0.2)"/><circle cx="50" cy="100" r="15" fill="#ffd700" filter="blur(5px)"/></svg></div>
+        <div class="lantern l-center"><svg viewBox="0 0 100 200" class="lantern-svg"><path d="M50,0 L50,30 M30,30 L70,30 L80,70 L20,70 L30,30 M20,70 L80,70 L70,140 L30,140 L20,70 M45,140 L45,170 M55,140 L55,170 M35,170 L65,170" stroke="#ffd700" stroke-width="2" fill="rgba(255,215,0,0.2)"/><circle cx="50" cy="100" r="10" fill="#ffd700" filter="blur(5px)"/></svg></div>
+        <div class="lantern l-right"><svg viewBox="0 0 100 200" class="lantern-svg"><path d="M50,0 L50,20 M20,20 L80,20 L90,60 L10,60 L20,20 M10,60 L90,60 L80,150 L20,150 L10,60 M40,150 L40,180 M60,150 L60,180 M30,180 L70,180" stroke="#ffd700" stroke-width="2" fill="rgba(255,215,0,0.2)"/><circle cx="50" cy="100" r="15" fill="#ffd700" filter="blur(5px)"/></svg></div>
     </div>
 
     <div class="main-container">
         <div class="moon-icon">🌙</div>
-        <h1>رمضان مبارك</h1>
-        <p style="font-size: 1.2rem; opacity: 0.8;">أهلاً بشهر الخير والرحمة</p>
+        <h1 id="mainTitle">رمضان مبارك</h1>
+        <p id="subTitle" style="font-size: 1.2rem; opacity: 0.8;">أهلاً بشهر الخير والرحمة</p>
 
         <div class="greeting-card" id="cardArea">
-            <p class="greeting-label">تهنئة خاصة ومحبة خالصة إلى</p>
+            <p class="greeting-label" id="toLabel">إلى الغالي/ة:</p>
             <span class="recipient-name" id="displayRecipient">زائرنا الكريم</span>
             
             <hr style="border-color: rgba(255,215,0,0.3); margin: 10px 0;">
             
-            <p class="dua-text" id="randomDua">
-                اللهم أهله علينا بالأمن والإيمان، والسلامة والإسلام...
-            </p>
+            <p class="dua-text" id="randomDua">...</p>
             
             <div class="sender-section">
-                <p class="greeting-label">من:</p>
+                <p class="greeting-label" id="fromLabel">من:</p>
                 <span class="sender-name" id="displaySender">فاعل خير</span>
             </div>
             
-            <p style="font-size: 0.9rem; color: var(--primary-gold); margin-top: 15px;">
-                كل عام وأنتم بخير
-            </p>
+            <p id="footerText" style="font-size: 0.9rem; color: var(--primary-gold); margin-top: 15px;">كل عام وأنتم بخير</p>
         </div>
 
         <div class="controls">
-            <h3 style="margin-bottom: 20px; color: var(--bright-gold);">👇 أنشئ بطاقتك الخاصة</h3>
+            <h3 id="controlsTitle" style="margin-bottom: 20px; color: var(--bright-gold);">👇 أنشئ بطاقتك الخاصة</h3>
             
             <div class="input-group">
-                <label class="input-label">اسمك (المرسل):</label>
-                <input type="text" id="senderInput" placeholder="مثال: أحمد، أمك الغالية..." oninput="updateCardLive()" autocomplete="off">
+                <label class="input-label" id="labelSenderInput">اسمك (المرسل):</label>
+                <input type="text" id="senderInput" oninput="updateCardLive()" autocomplete="off">
             </div>
 
             <div class="input-group">
-                <label class="input-label">اسم من تحب (المستقبل):</label>
-                <input type="text" id="recipientInput" placeholder="مثال: خالد، أبي..." oninput="updateCardLive()" autocomplete="off">
+                <label class="input-label" id="labelRecipientInput">اسم المستقبل:</label>
+                <input type="text" id="recipientInput" oninput="updateCardLive()" autocomplete="off">
             </div>
 
             <div class="btn-group">
                 <button class="btn-generate" onclick="randomizeDua()">
-                    <span>✨</span> دعاء جديد
+                    <span>✨</span> <span id="btnDuaText">دعاء جديد</span>
                 </button>
                 <button class="btn-share" onclick="shareGreeting()">
-                    <span>🔗</span> مشاركة التهنئة
+                    <span>🔗</span> <span id="btnShareText">مشاركة التهنئة</span>
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="toast">تم نسخ الرابط! أرسله لمن تحب الآن.</div>
+    <div id="toast">تم نسخ الرابط!</div>
 
     <script>
-        const duas = [
-            "اللهم اجعلنا من عتقائك من النار في هذا الشهر الفضيل، واغفر لنا ولوالدينا ولجميع المسلمين.",
-            "مبارك عليكم الشهر، أسأل الله أن يعينكم على صيامه وقيامه، ويتقبل منا ومنكم صالح الأعمال.",
-            "اللهم سلمنا لرمضان، وسلم رمضان لنا، وتسلمه منا متقبلاً يا رب العالمين.",
-            "نسأل الله أن يملأ قلوبكم بالقرآن، ويجمعنا وإياكم في ظل الرحمن، ويبلغنا سوياً بركة شعبان وعتق رمضان.",
-            "أقر الله عينك في رمضان بلذة الأسحار وصحبة الأخيار ورحمة الغفار وجنة الأبرار.",
-            "شهر يرتفع فيه الدرجات، شهر عظيم.. شهر جميل.. شهر يشعر المسلم بالفرحة.. مبارك عليكم الشهر."
-        ];
+        // قاموس الترجمة الكامل
+        const content = {
+            ar: {
+                dir: "rtl",
+                title: "رمضان مبارك",
+                subTitle: "أهلاً بشهر الخير والرحمة",
+                ticker: "🌙 تهنئة خاصة بمناسبة حلول شهر رمضان المبارك من المصمم يونس الشيخ أبو تيم | تقبل الله منا ومنكم صالح الأعمال 🌙",
+                to: "إلى الغالي/ة:",
+                from: "من:",
+                defaultSender: "فاعل خير",
+                defaultRecipient: "زائرنا الكريم",
+                footer: "كل عام وأنتم بخير",
+                controlsTitle: "👇 أنشئ بطاقتك الخاصة",
+                labelSender: "اسمك (المرسل):",
+                labelRecipient: "اسم من تحب (المستقبل):",
+                placeholderSender: "مثال: أحمد، أمي...",
+                placeholderRecipient: "مثال: خالد، أبي...",
+                btnDua: "دعاء جديد",
+                btnShare: "مشاركة التهنئة",
+                toast: "تم نسخ الرابط! أرسله لمن تحب.",
+                shareMsg: "🌙 تهنئة خاصة بمناسبة رمضان المبارك",
+                duas: [
+                    "اللهم اجعلنا من عتقائك من النار في هذا الشهر الفضيل.",
+                    "مبارك عليكم الشهر، أسأل الله أن يعينكم على صيامه وقيامه.",
+                    "اللهم سلمنا لرمضان، وسلم رمضان لنا، وتسلمه منا متقبلاً.",
+                    "أسأل الله لكم في شهر رمضان حسنات تتكاثر وذنوباً تتناثر."
+                ]
+            },
+            en: {
+                dir: "ltr",
+                title: "Ramadan Mubarak",
+                subTitle: "Welcome to the month of mercy",
+                ticker: "🌙 Special Greeting for Ramadan by Younes Al-Sheikh Abu Taym | May Allah accept our good deeds 🌙",
+                to: "To:",
+                from: "From:",
+                defaultSender: "A Well Wisher",
+                defaultRecipient: "Dear Guest",
+                footer: "Happy Ramadan",
+                controlsTitle: "👇 Create your card",
+                labelSender: "Your Name (Sender):",
+                labelRecipient: "Recipient Name:",
+                placeholderSender: "e.g. Ahmed, Mom...",
+                placeholderRecipient: "e.g. John, Dad...",
+                btnDua: "New Wish",
+                btnShare: "Share Greeting",
+                toast: "Link copied! Send it now.",
+                shareMsg: "🌙 Special Ramadan Greeting",
+                duas: [
+                    "May Allah accept your fasting and prayers in this holy month.",
+                    "Wishing you a blessed Ramadan filled with peace and light.",
+                    "May this Ramadan bring joy, health and wealth to you.",
+                    "O Allah, let us reach Ramadan and accept our deeds."
+                ]
+            },
+            tr: {
+                dir: "ltr",
+                title: "Hayırlı Ramazanlar",
+                subTitle: "Rahmet ve bereket ayı hoş geldin",
+                ticker: "🌙 Tasarımcı Younes Al-Sheikh Abu Taym'dan Özel Ramazan Tebriği | Allah dualarımızı kabul etsin 🌙",
+                to: "Sayın:",
+                from: "Gönderen:",
+                defaultSender: "Bir Dost",
+                defaultRecipient: "Değerli Misafir",
+                footer: "Ramazan Bayramınız Mübarek Olsun",
+                controlsTitle: "👇 Kartını oluştur",
+                labelSender: "Adınız (Gönderen):",
+                labelRecipient: "Alıcının Adı:",
+                placeholderSender: "Örn: Ahmet, Anne...",
+                placeholderRecipient: "Örn: Mehmet, Baba...",
+                btnDua: "Yeni Dua",
+                btnShare: "Tebriği Paylaş",
+                toast: "Link kopyalandı! Şimdi gönder.",
+                shareMsg: "🌙 Özel Ramazan Tebriği",
+                duas: [
+                    "Allah bu mübarek ayda tuttuğumuz oruçları kabul etsin.",
+                    "Ramazan ayının hanenize bereket getirmesini dilerim.",
+                    "Rabbim bizi Ramazan'a kavuşturduğu gibi affına da kavuştursun.",
+                    "Hayırlı, huzurlu ve bereketli bir Ramazan dilerim."
+                ]
+            },
+            de: {
+                dir: "ltr",
+                title: "Ramadan Mubarak",
+                subTitle: "Willkommen im Monat der Barmherzigkeit",
+                ticker: "🌙 Besondere Grüße zum Ramadan von Younes Al-Sheikh Abu Taym | Möge Allah unsere guten Taten annehmen 🌙",
+                to: "Für:",
+                from: "Von:",
+                defaultSender: "Ein Freund",
+                defaultRecipient: "Lieber Gast",
+                footer: "Frohen Ramadan",
+                controlsTitle: "👇 Erstelle deine Karte",
+                labelSender: "Dein Name (Absender):",
+                labelRecipient: "Empfängername:",
+                placeholderSender: "z.B. Ahmed, Mama...",
+                placeholderRecipient: "z.B. Lukas, Papa...",
+                btnDua: "Neuer Wunsch",
+                btnShare: "Gruß teilen",
+                toast: "Link kopiert! Jetzt senden.",
+                shareMsg: "🌙 Besondere Ramadan-Grüße",
+                duas: [
+                    "Möge Allah dein Fasten und deine Gebete annehmen.",
+                    "Ich wünsche dir einen gesegneten Ramadan voller Frieden.",
+                    "Möge dieser Monat Freude und Gesundheit bringen.",
+                    "O Allah, lass uns den Ramadan erreichen und nimm unsere Taten an."
+                ]
+            }
+        };
 
-        // التأكد من تحميل الصفحة بالكامل قبل تشغيل الكود
+        let currentLang = 'ar'; // اللغة الافتراضية
+
         document.addEventListener("DOMContentLoaded", function() {
             initPage();
         });
 
         function initPage() {
             const urlParams = new URLSearchParams(window.location.search);
+            const langParam = urlParams.get('lang');
+            
+            // تحديد اللغة من الرابط أو الافتراضي
+            if (langParam && content[langParam]) {
+                currentLang = langParam;
+                document.getElementById('languageSelector').value = currentLang;
+            }
+
+            changeLanguage(currentLang); // تطبيق اللغة
+
+            // تعبئة الأسماء
             let sharedSender = urlParams.get('sender');
             let sharedRecipient = urlParams.get('recipient');
 
             const senderInput = document.getElementById('senderInput');
             const recipientInput = document.getElementById('recipientInput');
-            const displaySender = document.getElementById('displaySender');
-            const displayRecipient = document.getElementById('displayRecipient');
-
-            randomizeDua();
-
-            // معالجة البيانات من الرابط (فك التشفير وعرضها)
-            if (sharedSender || sharedRecipient) {
+            
+            if (sharedSender) {
                 try {
-                    if(sharedSender) {
-                        sharedSender = decodeURIComponent(sharedSender);
-                        senderInput.value = sharedSender;
-                        displaySender.textContent = sharedSender;
-                    }
-                    if(sharedRecipient) {
-                        sharedRecipient = decodeURIComponent(sharedRecipient);
-                        recipientInput.value = sharedRecipient;
-                        displayRecipient.textContent = sharedRecipient;
-                    }
-                    if(sharedSender && sharedRecipient) {
-                        document.title = `تهنئة من ${sharedSender} إلى ${sharedRecipient}`;
-                    }
-                } catch(e) { console.log("Error decoding names", e); }
+                    senderInput.value = decodeURIComponent(sharedSender);
+                } catch(e) {}
             }
+            if (sharedRecipient) {
+                try {
+                    recipientInput.value = decodeURIComponent(sharedRecipient);
+                } catch(e) {}
+            }
+
+            updateCardLive();
+            randomizeDua();
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            const t = content[lang];
+            
+            // تغيير الاتجاه
+            document.documentElement.dir = t.dir;
+            document.documentElement.lang = lang;
+
+            // تغيير النصوص
+            document.getElementById('tickerText').textContent = t.ticker;
+            document.getElementById('tickerText').className = `ticker-content ${t.dir === 'rtl' ? 'ticker-rtl' : 'ticker-ltr'}`;
+            
+            document.getElementById('mainTitle').textContent = t.title;
+            document.getElementById('subTitle').textContent = t.subTitle;
+            
+            document.getElementById('toLabel').textContent = t.to;
+            document.getElementById('fromLabel').textContent = t.from;
+            document.getElementById('footerText').textContent = t.footer;
+            
+            document.getElementById('controlsTitle').textContent = t.controlsTitle;
+            document.getElementById('labelSenderInput').textContent = t.labelSender;
+            document.getElementById('labelRecipientInput').textContent = t.labelRecipient;
+            
+            document.getElementById('senderInput').placeholder = t.placeholderSender;
+            document.getElementById('recipientInput').placeholder = t.placeholderRecipient;
+            
+            document.getElementById('btnDuaText').textContent = t.btnDua;
+            document.getElementById('btnShareText').textContent = t.btnShare;
+
+            updateCardLive(); // تحديث الأسماء حسب اللغة الجديدة (Default names)
+            randomizeDua(); // تحديث الدعاء للغة الجديدة
         }
 
         function updateCardLive() {
+            const t = content[currentLang];
             const senderVal = document.getElementById('senderInput').value;
             const recipientVal = document.getElementById('recipientInput').value;
             
-            document.getElementById('displaySender').textContent = senderVal.trim() === "" ? "فاعل خير" : senderVal;
-            document.getElementById('displayRecipient').textContent = recipientVal.trim() === "" ? "زائرنا الكريم" : recipientVal;
+            document.getElementById('displaySender').textContent = senderVal.trim() === "" ? t.defaultSender : senderVal;
+            document.getElementById('displayRecipient').textContent = recipientVal.trim() === "" ? t.defaultRecipient : recipientVal;
         }
 
         function randomizeDua() {
             const duaText = document.getElementById('randomDua');
-            const randomIndex = Math.floor(Math.random() * duas.length);
+            const duaList = content[currentLang].duas;
+            const randomIndex = Math.floor(Math.random() * duaList.length);
+            
             duaText.style.opacity = 0;
             setTimeout(() => {
-                duaText.textContent = duas[randomIndex];
+                duaText.textContent = duaList[randomIndex];
                 duaText.style.opacity = 1;
             }, 300);
         }
 
         async function shareGreeting() {
-            const senderVal = document.getElementById('senderInput').value.trim() || "فاعل خير";
-            const recipientVal = document.getElementById('recipientInput').value.trim() || "صديقي";
+            const senderVal = document.getElementById('senderInput').value.trim();
+            const recipientVal = document.getElementById('recipientInput').value.trim();
+            const t = content[currentLang];
 
-            // بناء الرابط النظيف
+            // بناء الرابط مع بارامتر اللغة
             const baseUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-            const shareUrl = `${baseUrl}?sender=${encodeURIComponent(senderVal)}&recipient=${encodeURIComponent(recipientVal)}`;
+            const shareUrl = `${baseUrl}?sender=${encodeURIComponent(senderVal)}&recipient=${encodeURIComponent(recipientVal)}&lang=${currentLang}`;
             
-            const shareTitle = `تهنئة رمضان`;
-            // تمت إزالة جملة "من تصميم..." كما طلبت
-            const shareText = `🌙 تهنئة خاصة بمناسبة شهر رمضان المبارك\nمن: ${senderVal}\nإلى: ${recipientVal}\n\nاضغط الرابط للمشاهدة:`;
+            const shareTitle = t.title;
+            const displayName = senderVal || t.defaultSender;
+            const displayTarget = recipientVal || t.defaultRecipient;
+            
+            const shareText = `${t.shareMsg}\n${t.from} ${displayName}\n${t.to} ${displayTarget}\n\n👇`;
 
             if (navigator.share) {
                 try {
@@ -476,18 +472,15 @@
 
         function copyToClipboard(text) {
             const toast = document.getElementById('toast');
+            const t = content[currentLang];
+            
             navigator.clipboard.writeText(text).then(() => {
-                showToast("تم نسخ رابط التهنئة! أرسله الآن");
+                toast.textContent = t.toast;
+                toast.className = "show";
+                setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
             }, () => {
-                prompt("انسخ الرابط يدوياً:", text);
+                prompt("Copy link:", text);
             });
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.className = "show";
-            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
         }
     </script>
 </body>
