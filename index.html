@@ -424,8 +424,20 @@
             let sharedRecipient = urlParams.get('recipient');
             const senderInput = document.getElementById('senderInput');
             const recipientInput = document.getElementById('recipientInput');
-            if (sharedSender) try { senderInput.value = decodeURIComponent(sharedSender); } catch(e) {}
-            if (sharedRecipient) try { recipientInput.value = decodeURIComponent(sharedRecipient); } catch(e) {}
+            
+            // 1. الأولوية للرابط (إذا فتحت بطاقة شخص آخر)
+            if (sharedSender) {
+                try { senderInput.value = decodeURIComponent(sharedSender); } catch(e) {}
+            } else {
+                // 2. إذا لم يوجد رابط، استرجع اسمك المحفوظ سابقاً
+                if(localStorage.getItem('savedSender')) senderInput.value = localStorage.getItem('savedSender');
+            }
+
+            if (sharedRecipient) {
+                try { recipientInput.value = decodeURIComponent(sharedRecipient); } catch(e) {}
+            } else {
+                if(localStorage.getItem('savedRecipient')) recipientInput.value = localStorage.getItem('savedRecipient');
+            }
 
             updateCardLive();
             randomizeAll();
@@ -479,6 +491,11 @@
             const t = content[currentLang];
             const senderVal = document.getElementById('senderInput').value;
             const recipientVal = document.getElementById('recipientInput').value;
+
+            // حفظ البيانات تلقائياً في المتصفح
+            localStorage.setItem('savedSender', senderVal);
+            localStorage.setItem('savedRecipient', recipientVal);
+
             document.getElementById('displaySender').textContent = senderVal.trim() === "" ? t.defaultSender : senderVal;
             document.getElementById('displayRecipient').textContent = recipientVal.trim() === "" ? t.defaultRecipient : recipientVal;
         }
