@@ -482,22 +482,29 @@
                 if (t.themeNames[option.value]) option.text = t.themeNames[option.value];
             });
 
-            updateCardLive();
-            randomizeAll();
+            // تأخير بسيط لضمان تحميل الترجمة أولاً
+            setTimeout(() => {
+                updateCardLive();
+                randomizeAll();
+            }, 100);
             updateCountdown();
         }
 
         function updateCardLive() {
-            const t = content[currentLang];
-            const senderVal = document.getElementById('senderInput').value;
-            const recipientVal = document.getElementById('recipientInput').value;
+            const t = content[currentLang] || content['ar'];
+            const senderInput = document.getElementById('senderInput');
+            const recipientInput = document.getElementById('recipientInput');
+            
+            const senderVal = senderInput.value.trim();
+            const recipientVal = recipientInput.value.trim();
 
-            // حفظ البيانات تلقائياً في المتصفح
+            // حفظ البيانات في المتصفح للزيارات القادمة
             localStorage.setItem('savedSender', senderVal);
             localStorage.setItem('savedRecipient', recipientVal);
 
-            document.getElementById('displaySender').textContent = senderVal.trim() === "" ? t.defaultSender : senderVal;
-            document.getElementById('displayRecipient').textContent = recipientVal.trim() === "" ? t.defaultRecipient : recipientVal;
+            // تحديث العرض المباشر داخل الكرت
+            document.getElementById('displaySender').textContent = senderVal === "" ? t.defaultSender : senderVal;
+            document.getElementById('displayRecipient').textContent = recipientVal === "" ? t.defaultRecipient : recipientVal;
         }
 
         function randomizeAll() {
