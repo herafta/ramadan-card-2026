@@ -1,4 +1,362 @@
-<script>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ramadan Greeting Card</title>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Reem+Kufi:wght@400;700&family=Poppins:wght@400;600&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- المتغيرات الأساسية --- */
+        :root {
+            --bg-body: #0f172a;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --primary: #c5a059;
+            --secondary: #ffd700;
+            --accent: #10b981;
+            --text-main: #f8fafc;
+            --text-sub: #cbd5e1;
+            --border-color: #c5a059;
+            --border-width: 2px;
+            --border-style: solid;
+            --radius: 20px;
+            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+            --font-head: 'Reem Kufi', sans-serif;
+            --font-body: 'Amiri', serif;
+            --overlay-pattern: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23c5a059\' fill-opacity=\'0.05\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+        }
+
+        /* ================= THEMES ================= */
+        [data-theme="default"] { --bg-body: radial-gradient(circle at 50% 10%, #1e293b 0%, #0f172a 100%); }
+        [data-theme="emerald"] { --bg-body: radial-gradient(circle, #064e3b 0%, #022c22 100%); --bg-card: rgba(6, 78, 59, 0.8); --primary: #fbbf24; --secondary: #f59e0b; --accent: #34d399; --border-color: #fbbf24; --radius: 8px; --font-head: 'Aref Ruqaa', serif; --overlay-pattern: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1h2v2H1V1zm4 4h2v2H5V5zm4 4h2v2H9V9zm4 4h2v2h-2v-2zm4 4h2v2h-2v-2z' fill='%23fbbf24' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E"); }
+        [data-theme="scroll"] { --bg-body: #fdf6e3; --bg-card: #fffbf0; --primary: #8d6e63; --secondary: #5d4037; --accent: #d35400; --text-main: #3e2723; --text-sub: #5d4037; --border-color: #8d6e63; --border-style: double; --border-width: 6px; --radius: 2px; --shadow: 10px 10px 0px rgba(93, 64, 55, 0.2); --font-head: 'Amiri', serif; --overlay-pattern: none; }
+        [data-theme="ruby"] { --bg-body: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%); --bg-card: rgba(127, 29, 29, 0.5); --primary: #e5e7eb; --secondary: #ffffff; --accent: #fca5a5; --border-color: rgba(255,255,255,0.3); --radius: 30px; --font-head: 'Cairo', sans-serif; }
+        [data-theme="mirage"] { --bg-body: #e0e5ec; --bg-card: #e0e5ec; --primary: #475569; --secondary: #1e293b; --accent: #3b82f6; --text-main: #1e293b; --text-sub: #475569; --border-width: 0px; --radius: 25px; --shadow: 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px rgba(255,255,255, 0.5); --font-head: 'Poppins', sans-serif; --overlay-pattern: none; }
+        [data-theme="space"] { --bg-body: #000000; --bg-card: rgba(20, 20, 20, 0.8); --primary: #d946ef; --secondary: #8b5cf6; --accent: #06b6d4; --border-color: #d946ef; --border-width: 1px; --shadow: 0 0 20px rgba(217, 70, 239, 0.4); --radius: 0px; --font-head: 'Cairo', sans-serif; --overlay-pattern: none; }
+        [data-theme="ceramic"] { --bg-body: #f0f9ff; --bg-card: #ffffff; --primary: #0369a1; --secondary: #0ea5e9; --accent: #0284c7; --text-main: #0c4a6e; --text-sub: #075985; --border-color: #0369a1; --border-width: 3px; --radius: 40px 40px 0 0; --font-head: 'Reem Kufi', sans-serif; --shadow: 0 10px 25px rgba(3, 105, 161, 0.2); }
+        [data-theme="sunset"] { --bg-body: linear-gradient(45deg, #7c3aed, #db2777, #f59e0b); --bg-card: rgba(255, 255, 255, 0.2); --primary: #fff; --secondary: #fff; --accent: #fde047; --border-color: rgba(255,255,255,0.4); --radius: 20px; --shadow: 0 8px 32px rgba(0, 0, 0, 0.3); --font-head: 'Cairo', sans-serif; }
+        [data-theme="pearl"] { --bg-body: #f8fafc; --bg-card: #ffffff; --primary: #94a3b8; --secondary: #64748b; --accent: #334155; --text-main: #1e293b; --text-sub: #475569; --border-width: 1px; --border-color: #e2e8f0; --radius: 12px; --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); --font-head: 'Amiri', serif; --overlay-pattern: none; }
+        [data-theme="kaaba"] { --bg-body: #111; --bg-card: #000; --primary: #FFD700; --secondary: #B8860B; --accent: #FFF; --border-color: #FFD700; --border-width: 4px; --border-style: solid; --radius: 0; --text-main: #FFD700; --text-sub: #FFF; --shadow: 0 0 50px rgba(255, 215, 0, 0.1); --overlay-pattern: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%23FFD700' fill-opacity='0.05'/%3E%3C/svg%3E"); }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: var(--font-body); background: var(--bg-body); color: var(--text-main);
+            overflow-x: hidden; min-height: 100vh; padding-bottom: 40px; transition: all 0.5s ease;
+        }
+
+        .bg-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; opacity: 1; background-image: var(--overlay-pattern);
+            transition: all 0.5s ease;
+        }
+
+        .falling-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+        .fall-item { position: absolute; top: -50px; color: var(--secondary); opacity: 0.7; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+        .top-controls {
+            position: absolute; top: 50px; width: 100%; display: flex; justify-content: space-between; padding: 0 20px; z-index: 100;
+        }
+        select {
+            background: rgba(0,0,0,0.5); color: #fff; border: 1px solid var(--primary);
+            padding: 8px 10px; border-radius: 20px; font-family: 'Cairo', sans-serif; cursor: pointer; outline: none; font-size: 0.85rem; backdrop-filter: blur(5px);
+            max-width: 40%;
+        }
+        [data-theme="scroll"] select, [data-theme="mirage"] select, [data-theme="ceramic"] select, [data-theme="pearl"] select { background: rgba(255,255,255,0.8); color: #000; }
+
+        .audio-btn {
+            position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px;
+            background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer; z-index: 1000; border: 2px solid var(--bg-card);
+            transition: transform 0.3s; color: var(--bg-body); font-size: 1.2rem;
+        }
+        .audio-btn:active { transform: scale(0.9); }
+        .audio-pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 var(--primary); } 70% { box-shadow: 0 0 0 15px rgba(0,0,0,0); } 100% { box-shadow: 0 0 0 0 rgba(0,0,0,0); } }
+
+        .news-ticker {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: #000; padding: 8px 0; font-weight: bold; font-family: var(--font-head);
+            position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); font-size: 0.9rem;
+        }
+        .ticker-content { white-space: nowrap; display: inline-block; padding-left: 100%; }
+        .ticker-rtl { animation: ticker-rtl-move 25s linear infinite; direction: ltr; float: left;}
+        .ticker-ltr { animation: ticker-ltr-move 25s linear infinite; }
+        @keyframes ticker-rtl-move { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        @keyframes ticker-ltr-move { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        .lanterns-container {
+            position: absolute; top: 40px; width: 100%; display: flex; justify-content: space-between; padding: 0 10px; z-index: 5; pointer-events: none;
+        }
+        .lantern { width: 60px; height: auto; transform-origin: top center; transition: all 0.5s; }
+        .lantern path { stroke: var(--primary); stroke-width: 2; fill: rgba(255,255,255,0.1); }
+        .lantern circle { fill: var(--secondary); filter: blur(5px); }
+        .l-left { animation: swing 3s infinite alternate; margin-left: 5%; }
+        .l-right { animation: swing 4s infinite alternate; margin-right: 5%; width: 80px; }
+        .l-center { animation: swing 5s infinite alternate; width: 50px; position: absolute; left: 50%; transform: translateX(-50%); top: -10px;}
+        @keyframes swing { 0% { transform: rotate(5deg); } 100% { transform: rotate(-5deg); } }
+
+        .main-container {
+            position: relative; z-index: 10; max-width: 800px;
+            margin: 110px auto 40px; text-align: center; padding: 20px;
+        }
+
+        .moon-icon {
+            font-size: 5rem; color: var(--secondary); text-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+            animation: float 6s infinite; margin-bottom: 20px; display: inline-block;
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        h1 {
+            font-family: var(--font-head); font-size: 3rem; color: var(--primary);
+            margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); transition: color 0.5s;
+        }
+
+        /* تم إزالة #captureArea من هنا لأنه سيتم إنشاؤه برمجياً عند التحميل */
+
+        .greeting-card {
+            background: var(--bg-card); backdrop-filter: blur(10px);
+            border: var(--border-width) var(--border-style) var(--border-color);
+            border-radius: var(--radius); padding: 30px; margin: 20px 0;
+            box-shadow: var(--shadow); transition: all 0.5s ease;
+        }
+        .greeting-label { font-size: 1rem; color: var(--text-sub); margin-bottom: 5px; opacity: 0.8; }
+        .recipient-name {
+            font-size: 2.5rem; color: var(--accent); font-family: var(--font-head);
+            margin-bottom: 15px; display: block; text-shadow: 0 0 10px rgba(0,0,0,0.1); word-break: break-word;
+        }
+        .dua-text { font-size: 1.2rem; line-height: 1.8; margin: 20px 0; color: var(--text-main); font-style: italic; }
+        .sender-section { margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 15px; opacity: 0.8; }
+        .sender-name { color: var(--primary); font-family: var(--font-head); font-size: 1.4rem; font-weight: bold; }
+
+        /* --- قسم القلب والعداد --- */
+        .countdown-heart-container {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--border-color);
+        }
+        
+        .heart-svg {
+            width: 150px; height: 100px;
+            margin: 10px 0;
+        }
+        
+        /* انيميشن الرسم للقلب */
+        .heart-path {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 400; 
+            stroke-dashoffset: 400;
+            animation: drawHeart 4s ease-in-out infinite;
+        }
+        
+        @keyframes drawHeart {
+            0% { stroke-dashoffset: 400; opacity: 0; }
+            10% { opacity: 1; }
+            80% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        .ramadan-wait-text {
+            font-family: var(--font-head);
+            font-size: 1.1rem; color: var(--primary); margin-bottom: 5px;
+        }
+        
+        .countdown-digits {
+            font-family: 'Poppins', sans-serif; font-weight: bold;
+            color: var(--secondary); font-size: 1.3rem;
+            direction: ltr;
+        }
+
+        /* --- الشبكة --- */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .feature-card {
+            background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius);
+            padding: 15px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: transform 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .feature-card:hover { transform: translateY(-3px); }
+        .feature-icon { font-size: 1.8rem; margin-bottom: 10px; }
+        .feature-title { color: var(--primary); font-size: 1rem; font-weight: bold; margin-bottom: 8px; font-family: var(--font-head);}
+        .feature-text { font-size: 0.9rem; line-height: 1.4; opacity: 0.9; min-height: 40px; color: var(--text-main); display: flex; align-items: center; justify-content: center;}
+
+        .tasbih-card { cursor: pointer; }
+        .tasbih-card:active { transform: scale(0.95); }
+        .counter-circle {
+            width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--accent);
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; color: var(--text-main);
+            margin-top: 5px; background: rgba(0,0,0,0.1);
+        }
+
+        /* --- أدوات التحكم --- */
+        .controls {
+            margin-top: 20px; background: var(--bg-card); padding: 25px;
+            border-radius: var(--radius); border: 1px solid var(--border-color); transition: all 0.5s;
+        }
+        .input-group { margin-bottom: 15px; }
+        html[dir="rtl"] .input-group { text-align: right; }
+        html[dir="ltr"] .input-group { text-align: left; }
+        .input-label { color: var(--primary); font-size: 0.9rem; margin-bottom: 5px; display: block; }
+        input[type="text"] {
+            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--primary);
+            background: rgba(255,255,255,0.1); color: var(--text-main);
+            font-family: inherit; font-size: 1.1rem; text-align: center;
+        }
+        [data-theme="scroll"] input, [data-theme="mirage"] input, [data-theme="ceramic"] input, [data-theme="pearl"] input { background: rgba(0,0,0,0.05); color: #000; }
+
+        .btn-group { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+        button {
+            padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer;
+            font-family: inherit; font-weight: bold; font-size: 0.95rem;
+            display: flex; align-items: center; justify-content: center; gap: 5px; flex: 1; min-width: 130px;
+            transition: all 0.3s;
+        }
+        .btn-generate { background: var(--primary); color: var(--bg-body); }
+        .btn-share { background: var(--accent); color: #fff; }
+        .btn-download { background: var(--secondary); color: #000; }
+        button:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+        #toast {
+            visibility: hidden; min-width: 250px; background-color: #333; color: #fff;
+            text-align: center; border-radius: 8px; padding: 16px; position: fixed;
+            z-index: 2000; left: 50%; bottom: 30px; transform: translateX(-50%);
+            border-bottom: 4px solid var(--accent);
+        }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .lantern { width: 45px; } .l-right { width: 65px; }
+            button { width: 100%; margin-bottom: 5px; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body data-theme="default">
+
+    <audio id="ramadanAudio" loop>
+        <source src="https://archive.org/download/Ramadan-Nasheed-No-Copyright/Ramadan%20Nasheed.mp3" type="audio/mpeg">
+    </audio>
+    <div class="audio-btn" onclick="toggleAudio()" id="audioBtn">🔈</div>
+
+    <div class="bg-overlay"></div>
+    <div class="falling-container" id="fallingContainer"></div>
+
+    <div class="top-controls">
+        <select id="languageSelector" onchange="changeLanguage(this.value)">
+            <option value="ar">🇸🇦 العربية</option>
+            <option value="en">🇬🇧 English</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="tr">🇹🇷 Türkçe</option>
+            <option value="de">🇩🇪 Deutsch</option>
+            <option value="zh">🇨🇳 中文</option>
+            <option value="ja">🇯🇵 日本語</option>
+        </select>
+
+        <select id="themeSelector" onchange="changeTheme(this.value)">
+            <option value="default">🌌 الليالي</option>
+            <option value="emerald">🌿 الزمرد</option>
+            <option value="scroll">📜 المخطوطة</option>
+            <option value="ruby">👑 الياقوت</option>
+            <option value="mirage">🌫️ السراب</option>
+            <option value="space">🪐 الفضاء</option>
+            <option value="ceramic">🏺 الخزف</option>
+            <option value="sunset">🌅 الغروب</option>
+            <option value="pearl">🐚 اللؤلؤ</option>
+            <option value="kaaba">🕋 الكعبة</option>
+        </select>
+    </div>
+
+    <div class="news-ticker">
+        <div class="ticker-content" id="tickerText"></div>
+    </div>
+
+    <div class="lanterns-container">
+        <div class="lantern l-left"><svg viewBox="0 0 100 200"><path d="M50,0 L50,20 M20,20 L80,20 L90,60 L10,60 L20,20 M10,60 L90,60 L80,150 L20,150 L10,60 M40,150 L40,180 M60,150 L60,180 M30,180 L70,180"/><circle cx="50" cy="100" r="15"/></svg></div>
+        <div class="lantern l-center"><svg viewBox="0 0 100 200"><path d="M50,0 L50,30 M30,30 L70,30 L80,70 L20,70 L30,30 M20,70 L80,70 L70,140 L30,140 L20,70 M45,140 L45,170 M55,140 L55,170 M35,170 L65,170"/><circle cx="50" cy="100" r="10"/></svg></div>
+        <div class="lantern l-right"><svg viewBox="0 0 100 200"><path d="M50,0 L50,20 M20,20 L80,20 L90,60 L10,60 L20,20 M10,60 L90,60 L80,150 L20,150 L10,60 M40,150 L40,180 M60,150 L60,180 M30,180 L70,180"/><circle cx="50" cy="100" r="15"/></svg></div>
+    </div>
+
+    <div class="main-container">
+        <div id="toBeCaptured">
+            <div class="moon-icon" style="text-align: center; width: 100%;">🌙</div>
+            <h1 id="mainTitle" style="text-align: center;">رمضان مبارك</h1>
+            <p id="subTitle" style="font-size: 1.2rem; opacity: 0.8; text-align: center;">أهلاً بشهر الخير والرحمة</p>
+
+            <div class="greeting-card" id="cardArea">
+                <p class="greeting-label" id="toLabel">إلى الغالي/ة:</p>
+                <span class="recipient-name" id="displayRecipient">زائرنا الكريم</span>
+                <hr style="border-color: var(--primary); margin: 10px 0; opacity: 0.5;">
+                <p class="dua-text" id="randomDua">...</p>
+                <div class="sender-section">
+                    <p class="greeting-label" id="fromLabel">من:</p>
+                    <span class="sender-name" id="displaySender">فاعل خير</span>
+                </div>
+                
+                <div class="countdown-heart-container">
+                    <span class="ramadan-wait-text" id="ramadanWaitText">رمضان يقترب .. والقلب يرتقب</span>
+                    <svg class="heart-svg" viewBox="0 0 120 100">
+                        <path class="heart-path" d="M 60,30 A 15,15 0 0,1 90,30 C 90,50 70,70 60,85 C 50,70 30,50 30,30 A 15,15 0 0,1 60,30 M 90,30 L 95,30 L 100,20 L 105,40 L 110,30 L 115,30" fill="none" />
+                    </svg>
+                    <span id="ramadanCountdown" class="countdown-digits">...</span>
+                </div>
+
+                <p id="footerText" style="font-size: 0.9rem; color: var(--primary); margin-top: 15px;">كل عام وأنتم بخير</p>
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <div class="feature-title" id="titleNafahat">نفحات</div>
+                <div class="feature-text" id="textNafahat">...</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💡</div>
+                <div class="feature-title" id="titleAdvice">نصيحة رمضانية</div>
+                <div class="feature-text" id="textAdvice">...</div>
+            </div>
+            <div class="feature-card tasbih-card" onclick="incrementTasbih()">
+                <div class="feature-title" id="titleTasbih" style="margin-bottom:0">مسبحة</div>
+                <div class="counter-circle" id="tasbihCount">0</div>
+                <small style="opacity:0.7; margin-top:5px; font-size:0.8rem" id="tapText">اضغط للتسبيح</small>
+            </div>
+        </div>
+
+        <div class="controls">
+            <h3 id="controlsTitle" style="margin-bottom: 20px; color: var(--primary);">👇 أنشئ بطاقتك الخاصة</h3>
+            <div class="input-group">
+                <label class="input-label" id="labelSenderInput">اسمك (المرسل):</label>
+                <input type="text" id="senderInput" oninput="updateCardLive()" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label class="input-label" id="labelRecipientInput">اسم المستقبل:</label>
+                <input type="text" id="recipientInput" oninput="updateCardLive()" autocomplete="off">
+            </div>
+            <div class="btn-group">
+                <button class="btn-generate" onclick="randomizeAll()">
+                    <span>✨</span> <span id="btnDuaText">تحديث</span>
+                </button>
+                <button class="btn-download" onclick="downloadImage()">
+                    <span>📸</span> <span id="btnDownloadText">تحميل صورة</span>
+                </button>
+                <button class="btn-share" onclick="shareGreeting()">
+                    <span>🔗</span> <span id="btnShareText">مشاركة</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast">تم نسخ الرابط!</div>
+
+    <script>
         const content = {
             ar: {
                 dir: "rtl",
@@ -27,7 +385,7 @@
                 nafahatList: ["Fasting is discipline.", "Chance for change.", "Quran is the soul."], 
                 adviceList: ["Don't overeat at Iftar.", "Maintain Taraweeh.", "Make Dua frequently."] 
             },
-            fr: { dir: "ltr", title: "Ramadan Mubarak", subTitle: "Bienvenue au mois de la miséricorde", ticker: "🌙 Voeux pour le Ramadan par Younes Al-Sheikh Abu Taym 🌙", to: "Pour:", from: "De:", defaultSender: "Ami", defaultRecipient: "Invité", footer: "Joyeux Ramadan", controlsTitle: "👇 Créez votre carte", labelSender: "Votre Nom:", labelRecipient: "Destinatario:", placeholderSender: "ex: Ahmed...", placeholderRecipient: "ex: Marie...", btnDua: "Actualiser", btnShare: "Partager", btnDownload: "Image", toast: "Lien copié !", shareMsg: "🌙 Voeux Ramadan", titleNafahat: "Inspiration", titleAdvice: "Conseil", titleTasbih: "Tasbih", tapText: "Appuyez pour compter", ramadanWait: "Ramadan approche.. le cœur attend", days: "j", hours: "h", themeNames: { default: "🌌 Nuits", emerald: "🌿 Émeraude", scroll: "📜 Parchemin", ruby: "👑 Rubis", mirage: "🌫️ Mirage", space: "🪐 Espace", ceramic: "🏺 Céramique", sunset: "🌅 Coucher", pearl: "🐚 Perle", kaaba: "🕋 Kaaba" }, duas: ["Qu'Allah accepte votre jeûne.", "Joyeux Ramadan.", "Que ce Ramadan apporte la joie."], nafahatList: ["Le jeûne est discipline.", "Chance de changement.", "Coran est l'âme."], adviceList: ["Mangez peu.", "Priez Tarawih.", "Faites Dua."] },
+            fr: { dir: "ltr", title: "Ramadan Mubarak", subTitle: "Bienvenue au mois de la miséricorde", ticker: "🌙 Voeux pour le Ramadan par Younes Al-Sheikh Abu Taym 🌙", to: "Pour:", from: "De:", defaultSender: "Ami", defaultRecipient: "Invité", footer: "Joyeux Ramadan", controlsTitle: "👇 Créez votre carte", labelSender: "Votre Nom:", labelRecipient: "Destinataire:", placeholderSender: "ex: Ahmed...", placeholderRecipient: "ex: Marie...", btnDua: "Actualiser", btnShare: "Partager", btnDownload: "Image", toast: "Copié !", shareMsg: "🌙 Voeux Ramadan", titleNafahat: "Inspiration", titleAdvice: "Conseil", titleTasbih: "Tasbih", tapText: "Appuyez pour compter", ramadanWait: "Ramadan approche.. le cœur attend", days: "j", hours: "h", themeNames: { default: "🌌 Nuits", emerald: "🌿 Émeraude", scroll: "📜 Parchemin", ruby: "👑 Rubis", mirage: "🌫️ Mirage", space: "🪐 Espace", ceramic: "🏺 Céramique", sunset: "🌅 Coucher", pearl: "🐚 Perle", kaaba: "🕋 Kaaba" }, duas: ["Qu'Allah accepte votre jeûne.", "Joyeux Ramadan.", "Que ce Ramadan apporte la joie."], nafahatList: ["Le jeûne est discipline.", "Chance de changement.", "Coran est l'âme."], adviceList: ["Mangez peu.", "Priez Tarawih.", "Faites Dua."] },
             es: { dir: "ltr", title: "Ramadán Mubarak", subTitle: "Bienvenido el mes de la misericordia", ticker: "🌙 Saludos de Ramadán por Younes Al-Sheikh Abu Taym 🌙", to: "Para:", from: "De:", defaultSender: "Amigo", defaultRecipient: "Invitado", footer: "Feliz Ramadán", controlsTitle: "👇 Crea tu tarjeta", labelSender: "Tu Nombre:", labelRecipient: "Destinatario:", placeholderSender: "ej: Ahmed...", placeholderRecipient: "ej: Juan...", btnDua: "Actualizar", btnShare: "Compartir", btnDownload: "Imagen", toast: "¡Copiado!", shareMsg: "🌙 Saludos de Ramadán", titleNafahat: "Inspiración", titleAdvice: "Consejo", titleTasbih: "Tasbih", tapText: "Toca para contar", ramadanWait: "Ramadán se acerca.. el corazón espera", days: "d", hours: "h", themeNames: { default: "🌌 Noches", emerald: "🌿 Esmeralda", scroll: "📜 Pergamino", ruby: "👑 Rubí", mirage: "🌫️ Espejismo", space: "🪐 Espacio", ceramic: "🏺 Cerámica", sunset: "🌅 Ocaso", pearl: "🐚 Perla", kaaba: "🕋 Kaaba" }, duas: ["Que Allah acepte tu ayuno.", "Bendito Ramadán.", "Alegría en Ramadán."], nafahatList: ["Ayuno es disciplina.", "Oportunidad de cambio.", "Corán es el alma."], adviceList: ["No comas en exceso.", "Oraciones de Tarawih.", "Haz Dua."] },
             zh: { dir: "ltr", title: "斋月吉庆", subTitle: "欢迎来到慈悯之月", ticker: "🌙 Younes Al-Sheikh Abu Taym 的斋月祝福 🌙", to: "致:", from: "来自:", defaultSender: "朋友", defaultRecipient: "贵客", footer: "斋月快乐", controlsTitle: "👇 制作贺卡", labelSender: "你的名字:", labelRecipient: "收件人:", placeholderSender: "例如: 阿里...", placeholderRecipient: "例如: 穆罕默德...", btnDua: "刷新", btnShare: "分享", btnDownload: "保存图片", toast: "已复制！", shareMsg: "🌙 斋月祝福", titleNafahat: "灵感", titleAdvice: "建议", titleTasbih: "赞以此", tapText: "点击计数", ramadanWait: "斋月临近.. 心在等待", days: "天", hours: "小时", themeNames: { default: "🌌 夜晚", emerald: "🌿 翡翠", scroll: "📜 卷轴", ruby: "👑 红宝石", mirage: "🌫️ 海市蜃楼", space: "🪐 太空", ceramic: "🏺 陶瓷", sunset: "🌅 日落", pearl: "🐚 珍珠", kaaba: "🕋 天房" }, duas: ["愿真主接受斋戒。", "斋月吉庆。", "愿斋月带来喜悦。"], nafahatList: ["斋戒是自律。", "改变的机会。", "古兰经是灵魂。"], adviceList: ["不要暴饮暴食。", "坚持礼拜。", "多做杜阿。"] },
             ja: { dir: "ltr", title: "ラマダン・ムバラク", subTitle: "慈悲の月へようこそ", ticker: "🌙 Younes Al-Sheikh Abu Taym からの挨拶 🌙", to: "へ:", from: "から:", defaultSender: "友人", defaultRecipient: "ゲスト", footer: "ラマダンおめでとう", controlsTitle: "👇 カード作成", labelSender: "名前:", labelRecipient: "受取人:", placeholderSender: "例: アリ...", placeholderRecipient: "例: タナカ...", btnDua: "更新", btnShare: "共有", btnDownload: "画像を保存", toast: "コピーしました！", shareMsg: "🌙 ラマダンの挨拶", titleNafahat: "インスピレーション", titleAdvice: "ヒント", titleTasbih: "タスビー", tapText: "タップしてカウント", ramadanWait: "ラマダンが近づいています..", days: "日", hours: "時間", themeNames: { default: "🌌 夜", emerald: "🌿 エメラルド", scroll: "📜 巻物", ruby: "👑 ルビー", mirage: "🌫️ 蜃気楼", space: "🪐 宇宙", ceramic: "🏺 陶器", sunset: "🌅 夕日", pearl: "🐚 真珠", kaaba: "🕋 カアバ" }, duas: ["断食が受け入れられますように。", "祝福されたラマダンを。", "喜びをもたらしますように。"], nafahatList: ["断食は規律です。", "変化の機会です。", "コーランは魂です。"], adviceList: ["食べ過ぎないで。", "祈りを続けて。", "ドゥアをして。"] },
@@ -80,6 +438,7 @@
         function changeLanguage(lang) {
             currentLang = lang;
             const t = content[lang];
+            
             document.documentElement.dir = t.dir;
             document.documentElement.lang = lang;
 
@@ -104,12 +463,7 @@
             document.getElementById('titleAdvice').textContent = t.titleAdvice;
             document.getElementById('titleTasbih').textContent = t.titleTasbih;
             document.getElementById('tapText').textContent = t.tapText;
-            
-            // تم إصلاح الخطأ هنا (تم إزالة eidLabel واستخدام ramadanWaitText)
-            const waitTextEl = document.getElementById('ramadanWaitText');
-            if (waitTextEl) {
-                waitTextEl.textContent = t.ramadanWait;
-            }
+            document.getElementById('ramadanWaitText').textContent = t.ramadanWait;
 
             const themeSelect = document.getElementById('themeSelector');
             Array.from(themeSelect.options).forEach(option => {
@@ -142,20 +496,16 @@
 
         function setTextWithFade(id, text) {
             const el = document.getElementById(id);
-            if (el) {
-                el.style.opacity = 0;
-                setTimeout(() => { el.textContent = text; el.style.opacity = 1; }, 300);
-            }
+            el.style.opacity = 0;
+            setTimeout(() => { el.textContent = text; el.style.opacity = 1; }, 300);
         }
 
         function incrementTasbih() {
             tasbihCount++;
             const el = document.getElementById('tasbihCount');
-            if(el) {
-                el.textContent = tasbihCount;
-                el.style.transform = "scale(1.2)";
-                setTimeout(() => el.style.transform = "scale(1)", 150);
-            }
+            el.textContent = tasbihCount;
+            el.style.transform = "scale(1.2)";
+            setTimeout(() => el.style.transform = "scale(1)", 150);
         }
 
         function toggleAudio() {
@@ -188,81 +538,88 @@
         }
 
         function updateCountdown() {
+            // تحديد موعد تقريبي لرمضان 2026
             const ramadanDate = new Date('2026-02-17T00:00:00'); 
             const now = new Date();
             const diff = ramadanDate - now;
-            const el = document.getElementById('ramadanCountdown');
-            if (!el) return;
-
+            
             if (diff > 0) {
                 const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const t = content[currentLang];
-                el.textContent = `${days} ${t.days}, ${hours} ${t.hours}`;
+                document.getElementById('ramadanCountdown').textContent = `${days} ${t.days}, ${hours} ${t.hours}`;
             } else {
-                el.textContent = "Ramadan Kareem!";
+                document.getElementById('ramadanCountdown').textContent = "Ramadan Kareem!";
             }
         }
 
+        // دالة التحميل المعدلة (تقوم بإنشاء نسخة مؤقتة وتعديلها قبل التصوير)
         function downloadImage() {
             const btn = document.querySelector('.btn-download');
             const originalText = btn.innerHTML;
             btn.innerHTML = "⌛ ...";
 
+            // 1. إنشاء حاوية مؤقتة
             const tempContainer = document.createElement('div');
             tempContainer.setAttribute('id', 'temp-capture-container');
             tempContainer.style.position = 'absolute';
-            tempContainer.style.left = '-9999px'; 
+            tempContainer.style.left = '-9999px'; // إخفاء خارج الشاشة
             tempContainer.style.top = '0';
+            // محاكاة عرض الحاوية الأصلية
             tempContainer.style.width = document.querySelector('.main-container').offsetWidth + 'px';
             tempContainer.style.maxWidth = '800px';
             tempContainer.style.textAlign = 'center';
-            tempContainer.style.padding = '20px';
             
-            // **إصلاح مشكلة الخلفية الشفافة في الثيمات الداكنة**
-            // الحصول على اللون الفعلي للخلفية من المتغيرات وتطبيقه صراحةً
-            const computedStyle = getComputedStyle(document.body);
-            tempContainer.style.background = computedStyle.getPropertyValue('--bg-body');
-            
+            // تطبيق الثيم الحالي على الحاوية المؤقتة
             const currentTheme = document.body.getAttribute('data-theme');
             tempContainer.setAttribute('data-theme', currentTheme);
-            tempContainer.style.fontFamily = computedStyle.fontFamily;
-            tempContainer.style.color = computedStyle.color;
-
+            
             document.body.appendChild(tempContainer);
 
+
+            // 2. استنساخ الأجزاء المطلوبة
             const originalToBeCaptured = document.getElementById('toBeCaptured');
-            const clonedToBeCaptured = originalToBeCaptured.cloneNode(true);
             const originalFeaturesGrid = document.querySelector('.features-grid');
+
+            const clonedToBeCaptured = originalToBeCaptured.cloneNode(true);
             const clonedFeaturesGrid = originalFeaturesGrid.cloneNode(true);
 
-            // تعديل المسبحة في الصورة فقط لتظهر كدعاء
+            // 3. تعديل المسبحة في النسخة المستنسخة
             const tasbihCard = clonedFeaturesGrid.querySelector('.tasbih-card');
             if (tasbihCard) {
+                // استبدال المحتوى بالصلاة على النبي
                 tasbihCard.innerHTML = '<span style="font-family: var(--font-head); font-size: 1.1rem; color: var(--primary); font-weight: bold; line-height: 1.6;">اللهم صل على سيدنا محمد</span>';
+                // إزالة التفاعل وتعديل التنسيق ليتناسب
                 tasbihCard.removeAttribute('onclick');
                 tasbihCard.style.cursor = 'default';
                 tasbihCard.style.display = 'flex';
                 tasbihCard.style.alignItems = 'center';
                 tasbihCard.style.justifyContent = 'center';
-                tasbihCard.style.minHeight = '130px';
+                tasbihCard.style.minHeight = '130px'; // ضمان ارتفاع مناسب
             }
 
+            // 4. تجميع الحاوية المؤقتة
             tempContainer.appendChild(clonedToBeCaptured);
+            // إضافة مسافة بسيطة بين البطاقة والشبكة في الصورة
             const spacer = document.createElement('div');
             spacer.style.height = '20px';
             tempContainer.appendChild(spacer);
             tempContainer.appendChild(clonedFeaturesGrid);
 
+
+            // 5. التقاط الصورة للحاوية المؤقتة
             html2canvas(tempContainer, {
-                backgroundColor: null, // نتركه فارغاً لأننا ضبطنا الخلفية يدوياً في الأعلى
-                scale: 2,
+                backgroundColor: null,
+                scale: 2, // جودة عالية
                 useCORS: true
             }).then(canvas => {
+                // تنزيل الصورة
                 const link = document.createElement('a');
-                link.download = 'Ramadan-Greeting-Card.png';
+                link.download = 'Ramadan-Greeting-Full.png';
                 link.href = canvas.toDataURL('image/png');
                 link.click();
+
+                // تنظيف
                 document.body.removeChild(tempContainer);
                 btn.innerHTML = originalText;
             }).catch(err => {
@@ -303,3 +660,5 @@
             }, () => { prompt("Copy link:", text); });
         }
     </script>
+</body>
+</html>
